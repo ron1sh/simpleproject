@@ -5,6 +5,7 @@ export default function Template() {
     const [query, setquery] = useState("");
     const [data, setdata] = useState(null);
     const [error, seterror] = useState(false);
+    const [sercheddata,setseacheddata]= useState("");
 
     const handlesearch = async () => {
         const trimmedquery = query.trim();
@@ -18,23 +19,26 @@ export default function Template() {
             if (!response.ok) {
                 setdata(null);
                 seterror(true);
+                setseacheddata(trimmedquery);
                 return;
             }
 
             const result = await response.json();
             setdata(result);
             seterror(false);
+            
         } catch (err) {
             console.error(err);
             setdata(null);
             seterror(true);
+            setseacheddata(trimmedquery);
         }
     };
 
     return (
         <div className="bg-tempback rounded-[0.3rem] w-[30rem] h-[40rem] flex flex-col items-center shadow-[0px_0px_11px_-8px_#ffffff] px-[1.2em] py-[1.2em] overflow-hidden">
             <div className="w-full flex-shrink-0 mb-4">
-                <Inputbox query={query} setquery={setquery} onsearch={handlesearch} />
+                <Inputbox query={query} setquery={setquery} onsearch={handlesearch} changeddata={sercheddata} />
             </div>
 
             <div className="text-white flex flex-col items-center w-full flex-1 min-h-0 justify-center">
@@ -50,7 +54,7 @@ export default function Template() {
                     </>
                 ) : error ? (
                     <p className="text-red-400 font-semibold text-center">
-                        This movie with the name "{query}" does not exist or it does?
+                        This movie with the name "{sercheddata}" does not exist or it does?
                     </p>
                 ) : (
                     <p className="opacity-50">Search for a movie</p>

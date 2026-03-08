@@ -1,4 +1,4 @@
-export default function Inputbox({query,setquery,onsearch}) {
+export default function Inputbox({query,setquery,onsearch,sercheddata}) {
     const handlekeydown=(e)=>{
         if(e.key==="Enter"){
             onsearch();
